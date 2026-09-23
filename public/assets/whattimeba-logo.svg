@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 212" role="img" aria-labelledby="title desc">
+  <title id="title">whattimeba.com</title>
+  <desc id="desc">whattimeba.com wordmark with a blue rabbit clock icon.</desc>
+  <defs>
+    <linearGradient id="blue" x1="15" y1="10" x2="190" y2="195" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a73d9"/>
+      <stop offset="0.58" stop-color="#078ee3"/>
+      <stop offset="1" stop-color="#10b8d1"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="75" y1="70" x2="135" y2="145" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#11c8c3"/>
+      <stop offset="1" stop-color="#08aebf"/>
+    </linearGradient>
+    <linearGradient id="word" x1="250" y1="60" x2="660" y2="150" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#086fcf"/>
+      <stop offset="1" stop-color="#0a63c4"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8 3) scale(.78)">
+    <g fill="url(#blue)">
+      <circle cx="49" cy="150" r="18"/>
+      <ellipse cx="105" cy="144" rx="68" ry="69"/>
+      <path d="M78 86C48 71 27 48 28 35c20-7 55 11 79 40l-29 11z"/>
+      <path d="M101 72C78 39 79 17 91 9c21 5 41 31 49 57l-39 6z"/>
+      <ellipse cx="167" cy="100" rx="57" ry="43"/>
+      <path d="M83 190c-23 11-36 25-33 37h70c5-12-4-25-37-37z"/>
+      <path d="M130 192c11 18 27 31 53 41h50c4-16-17-28-66-39l-37-2z"/>
+    </g>
+    <ellipse cx="171" cy="100" rx="38" ry="28" fill="#fff"/>
+    <path d="M157 95c7-10 17-10 24 0" fill="none" stroke="#0a7fdb" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="207" cy="102" r="6" fill="#0a7fdb"/>
+    <circle cx="103" cy="146" r="49" fill="#fff"/>
+    <g fill="#b9d9ea">
+      <rect x="99" y="103" width="8" height="16" rx="4"/>
+      <rect x="99" y="173" width="8" height="16" rx="4"/>
+      <rect x="60" y="142" width="16" height="8" rx="4"/>
+      <rect x="130" y="142" width="16" height="8" rx="4"/>
+    </g>
+    <g stroke="url(#teal)" stroke-width="10" stroke-linecap="round">
+      <path d="M103 146V119"/>
+      <path d="M103 146l27 24"/>
+    </g>
+    <circle cx="103" cy="146" r="10" fill="url(#teal)"/>
+  </g>
+  <text x="200" y="133" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="78" font-weight="800" letter-spacing="-3" fill="url(#word)">whattimeba</text>
+  <text x="585" y="133" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="78" font-weight="800" letter-spacing="-3" fill="#15bfc7">.com</text>
+</svg>

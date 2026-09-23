@@ -1,0 +1,205 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-only | Copyright (C) 2026 Tim Martinez -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="Paste a meeting time and instantly see what it means in your timezone, with daylight saving and timezone ambiguity checks." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://whattimeba.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://whattimeba.com/" />
+  <meta property="og:title" content="whattimeba.com — What time is that for me?" />
+  <meta property="og:description" content="Paste a meeting time and instantly convert it to your timezone, with daylight saving and timezone ambiguity checks." />
+  <meta property="og:image" content="https://whattimeba.com/assets/whattimeba-logo.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="whattimeba.com — What time is that for me?" />
+  <meta name="twitter:description" content="Paste a meeting time and instantly convert it to your timezone." />
+  <meta name="twitter:image" content="https://whattimeba.com/assets/whattimeba-logo.svg" />
+
+  <title>whattimeba.com — What time is that for me?</title>
+  <link rel="icon" href="/assets/whattimeba-mark.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/whattimeba-mark.svg" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="whattimeba.com home">
+        <img class="brand-logo" src="/assets/whattimeba-logo.svg" width="760" height="212" alt="whattimeba.com" />
+      </a>
+      <span class="privacy-note">Runs in your browser</span>
+    </div>
+  </header>
+
+  <main id="main" class="shell main-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">Simple meeting time translator</p>
+      <h1 id="page-title">What time is that for me?</h1>
+      <p class="hero-copy">Paste the meeting time exactly as they sent it. whattimeba.com translates it to your timezone and flags common EST, EDT, PST and daylight saving mistakes.</p>
+    </section>
+
+    <section class="card input-card" aria-labelledby="converter-title">
+      <h2 id="converter-title" class="sr-only">Convert a meeting time</h2>
+      <form id="natural-form" novalidate>
+        <label class="field-label" for="meeting-text">Paste the meeting time</label>
+        <div class="input-stack">
+          <textarea id="meeting-text" name="meetingText" rows="3" autocomplete="off" spellcheck="false" placeholder="Can we do Thursday at 5pm EST?"></textarea>
+          <button class="primary-button" type="submit">Convert meeting</button>
+        </div>
+        <div class="example-row" aria-label="Examples">
+          <span>Try:</span>
+          <button type="button" class="example-chip" data-example="Thursday 5pm EST">Thursday 5pm EST</button>
+          <button type="button" class="example-chip" data-example="Friday 3pm London time">Friday 3pm London</button>
+          <button type="button" class="example-chip" data-example="10am Sydney Monday">10am Sydney Monday</button>
+        </div>
+      </form>
+
+      <div id="parse-message" class="parse-message" role="status" aria-live="polite"></div>
+
+      <details id="details-panel" class="details-panel">
+        <summary>Check or edit the details</summary>
+        <div class="details-grid">
+          <div>
+            <label class="field-label" for="meeting-date">Their date</label>
+            <input id="meeting-date" type="date" />
+          </div>
+          <div>
+            <label class="field-label" for="meeting-time">Their time</label>
+            <input id="meeting-time" type="time" step="60" />
+          </div>
+          <div class="wide-field">
+            <label class="field-label" for="source-zone">Their timezone</label>
+            <input id="source-zone" list="timezone-list" autocomplete="off" placeholder="America/New_York, EST, London…" />
+            <p class="field-help">Use a city, IANA timezone, or abbreviation such as ET, EST, PT or PST.</p>
+          </div>
+          <div class="wide-field">
+            <label class="field-label" for="target-zone">Your timezone</label>
+            <input id="target-zone" list="timezone-list" autocomplete="off" />
+          </div>
+          <div>
+            <label class="field-label" for="duration">Meeting length</label>
+            <select id="duration">
+              <option value="30" selected>30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="90">1 hour 30 minutes</option>
+              <option value="120">2 hours</option>
+            </select>
+          </div>
+          <div class="detail-action">
+            <button id="manual-convert" class="secondary-button" type="button">Update conversion</button>
+          </div>
+        </div>
+      </details>
+      <datalist id="timezone-list"></datalist>
+    </section>
+
+    <section id="ambiguity-card" class="card ambiguity-card hidden" aria-live="polite">
+      <div class="warning-icon" aria-hidden="true">?</div>
+      <div>
+        <p class="eyebrow warning-eyebrow">Timezone needs clarification</p>
+        <h2 id="ambiguity-title">Which timezone did they mean?</h2>
+        <p id="ambiguity-copy"></p>
+        <div id="ambiguity-actions" class="ambiguity-actions"></div>
+      </div>
+    </section>
+
+    <section id="result-section" class="result-section hidden" aria-live="polite">
+      <div class="card result-card">
+        <div class="result-column">
+          <p class="result-label">Their time</p>
+          <p id="source-weekday" class="result-weekday"></p>
+          <p id="source-time" class="result-time"></p>
+          <p id="source-date" class="result-date"></p>
+          <p id="source-zone-label" class="zone-label"></p>
+        </div>
+
+        <div class="conversion-arrow" aria-hidden="true">
+          <span>→</span>
+          <small id="difference-label"></small>
+        </div>
+
+        <div class="result-column result-column-you">
+          <p class="result-label">Your time</p>
+          <p id="target-weekday" class="result-weekday"></p>
+          <p id="target-time" class="result-time"></p>
+          <p id="target-date" class="result-date"></p>
+          <p id="target-zone-label" class="zone-label"></p>
+          <div id="time-badges" class="badge-row"></div>
+        </div>
+      </div>
+
+      <div id="timezone-warning" class="card warning-card hidden">
+        <div class="warning-icon" aria-hidden="true">!</div>
+        <div>
+          <p class="eyebrow warning-eyebrow">Timezone check</p>
+          <h2 id="warning-title"></h2>
+          <p id="warning-copy"></p>
+          <div id="warning-comparison" class="warning-comparison"></div>
+        </div>
+      </div>
+
+      <div class="card action-card">
+        <div>
+          <p class="eyebrow">Ready to confirm?</p>
+          <h2>Use the converted time</h2>
+          <p id="confirmation-preview" class="confirmation-preview"></p>
+        </div>
+        <div class="action-grid">
+          <button id="copy-reply" class="primary-button" type="button">Copy confirmation</button>
+          <button id="share-meeting" class="secondary-button" type="button">Share this time</button>
+          <a id="google-calendar" class="secondary-button button-link" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <button id="download-ics" class="secondary-button" type="button">Download .ics</button>
+        </div>
+        <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="why-section" aria-labelledby="why-title">
+      <p class="eyebrow">Why this exists</p>
+      <h2 id="why-title">Timezone abbreviations are easy to get wrong.</h2>
+      <div class="why-grid">
+        <article>
+          <h3>Understands normal messages</h3>
+          <p>Use phrases like “Thursday 5pm EST” instead of filling out a complicated converter first.</p>
+        </article>
+        <article>
+          <h3>Checks daylight saving</h3>
+          <p>If someone says EST while New York is actually on EDT, whattimeba.com shows both interpretations before you confirm.</p>
+        </article>
+        <article>
+          <h3>Makes day changes obvious</h3>
+          <p>If their Thursday meeting is already Friday for you, the result calls it out clearly.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div class="footer-brand-block">
+        <a class="footer-brand" href="/" aria-label="whattimeba.com home">
+          <img src="/assets/whattimeba-mark.svg" width="32" height="32" alt="" aria-hidden="true" />
+          <strong>whattimeba.com</strong>
+        </a>
+        <span>© 2026 whattimeba.com.</span>
+      </div>
+      <div class="footer-meta">
+        <span>No account required. Meeting conversion happens in your browser.</span>
+        <span>Website maintained and developed by <a href="https://timothypaulmartinez.com/" target="_blank" rel="noopener noreferrer">Tim Martinez</a>.</span>
+        <span>Source code licensed under <a href="/license.txt">GPL-3.0-only</a>.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

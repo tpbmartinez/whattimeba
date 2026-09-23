@@ -1,0 +1,9 @@
+{
+  "name": "whattimeba.com",
+  "short_name": "whattimeba",
+  "description": "A meeting time translator that converts client and teammate meeting times into your timezone.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#ffffff"
+}
