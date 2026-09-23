@@ -122,6 +122,15 @@ if (sitemap?.ok) {
   else fail("sitemap does not contain https://whattimeba.com/");
 }
 
+const custom404 = await get("/404.html");
+if (custom404?.ok) {
+  const body = await custom404.text();
+  if (body.includes("That page does not exist.")) pass("Custom 404 page is deployed");
+  else fail("Custom 404 page responded but expected branded content was missing");
+} else {
+  fail(`Custom 404 page is not available; status ${custom404?.status || "request failed"}`);
+}
+
 const missing = await get("/definitely-not-a-real-file-whattimeba.txt");
 if (missing) {
   if (missing.status === 404) pass("Unknown static files return 404");
