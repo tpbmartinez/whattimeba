@@ -21,7 +21,7 @@ jobs:
           node-version: 20
 
       - name: Allow Cloudflare deployment to settle
-        run: sleep 30
+        run: sleep 75
 
       - name: Test deployed Cloudflare Pages site
         env:
