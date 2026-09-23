@@ -113,6 +113,13 @@ Important behaviour covered by tests includes:
 - absence of common DOM injection patterns
 - required production security headers
 
+## Deployment QA
+
+The repository has two complementary GitHub Actions checks:
+
+- **QA** validates the parser, timezone logic, generated local build, and static security rules.
+- **Live deployment QA** checks the deployed Cloudflare Pages site after pushes to `main`, including required assets, production security headers, caching, SEO files, and 404 behaviour.
+
 ## Cloudflare deployment
 
 ### Cloudflare Pages
