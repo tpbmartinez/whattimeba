@@ -1,0 +1,29 @@
+name: Live deployment QA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Allow Cloudflare deployment to settle
+        run: sleep 30
+
+      - name: Test deployed Cloudflare Pages site
+        env:
+          BASE_URL: https://whattimeba.pages.dev
+        run: node scripts/live-qa.mjs
