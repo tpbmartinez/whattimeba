@@ -17,5 +17,8 @@
   "homepage": "https://whattimeba.com/",
   "bugs": {
     "url": "https://github.com/tpbmartinez/whattimeba/issues"
+  },
+  "engines": {
+    "node": "^22.23.4 || ^24.22.1 || >=26.12.1"
   }
 }
